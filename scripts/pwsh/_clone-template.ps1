@@ -138,31 +138,42 @@ try {
     exit 1
   }
 
-  write-host "gh repo create wcenterprises/$($project.repository) --private --template $template --clone --description $DESCRIPTION"
+  write-host "creating repository wcenterprises/$($project.repository)" -ForegroundColor Blue
   gh repo create wcenterprises/$($project.repository) --private --template $template --clone --description $DESCRIPTION
   $item=get-item $($project.repository)
   set-location $item
 
+  write-host "adding topics" -ForegroundColor Blue
   gh repo edit "wcenterprises/$($project.repository)" --add-topic "tvm-219898-219901"
   gh repo edit "wcenterprises/$($project.repository)" --add-topic "dotnet"
 
+  write-host "adding teams standard teams" -ForegroundColor Blue
   Set-RepositoryTeam -teamName "digital-is-superuser" -permission "push"
   Set-RepositoryTeam -teamName "digital-is-build" -permission "admin"
   
   $project.teams | foreach-object {
+    write-host "adding team $($_)" -ForegroundColor Blue   
     Set-RepositoryTeam -teamName "$($_)" -permission "push"
   }
 
   $files=get-childitem -Recurse -include 'Dockerfile','CODEOWNERS','*.yml','README.md'
   $files | foreach-object {
+    write-host "updating file $(resolve-path $_.fullname -Relative)" -ForegroundColor Blue
     $resultcontent=get-content $_.fullname
     $alteredcontent=Convert-ContentTokens -content:$resultcontent
     $alteredcontent | out-file $_.fullname -force
   }
 
+  write-host "adding variable JH_PROJECT_NAME" -ForegroundColor Blue   
   Update-ActionVariable -variableName "JH_PROJECT_NAME" -variableValue "$($project.name)"
+
+  write-host "adding variable JH_SOLUTION_NAME" -ForegroundColor Blue   
   Update-ActionVariable -variableName "JH_SOLUTION_NAME" -variableValue "$($project.solution)"
+
+  write-host "adding variable PACKAGE_UPDATE_JIRA_TICKET" -ForegroundColor Blue   
   Update-ActionVariable -variableName "PACKAGE_UPDATE_JIRA_TICKET" -variableValue "BSL-2921"
+
+  
   $README_TEMPLATE | out-file ./README.md
 
   git config --global user.email "you@example.com"
