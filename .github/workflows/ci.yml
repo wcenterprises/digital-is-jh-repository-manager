@@ -57,12 +57,9 @@ jobs:
 
       - run: |
           $projects='${{ needs.validate.outputs.changed-files }}' | convertfrom-json
-          cd ..
-          $location=get-location          
           $projects | foreach-object {
             $project = $_
             $template = . ./scripts/pwsh/_clone-template.ps1 -project:$project
-            cd $location
           }
         shell: pwsh
         working-directory: ${{ needs.validate.outputs.base-directory }}
