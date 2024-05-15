@@ -1,0 +1,13 @@
+{
+  "name": "Jh.Sample16",
+  "solution": "Jh.Sample16.sln",
+  "jira_ticket": "CB-123",
+  "teams": [
+    "repo-manager"
+  ],
+  "codeowners": [
+    "brian-welsh",
+    "@wcenterprises/repo-manager"
+  ],
+  "repo-modifier": "poc-2"
+}

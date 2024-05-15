@@ -120,11 +120,11 @@ function Update-ActionVariable {
 
 $DESCRIPTION="Created by repo-manager, $((get-date -AsUTC).tostring("yyy-MM-dd HH:mm")) submitted by @$($env:GITHUB_ACTOR), Jira-Ticket: $($project.jira_ticket)"
 
-"getting location"
+write-host "getting location"
 $saveLocation=get-location
 
-"location"
-$saveLocation
+write-host "--- location $saveLocation"
+
 
 $item=$null
 
