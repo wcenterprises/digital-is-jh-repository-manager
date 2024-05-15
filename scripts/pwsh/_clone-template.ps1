@@ -120,9 +120,10 @@ function Update-ActionVariable {
 
 $DESCRIPTION="Created by repo-manager, $((get-date -AsUTC).tostring("yyy-MM-dd HH:mm")) submitted by @$($env:GITHUB_ACTOR), Jira-Ticket: $($project.jira_ticket)"
 
+write-host "getting location"
 $saveLocation=get-location
-set-location ../
 
+write-host "--- location $saveLocation"
 
 
 $item=$null
@@ -176,10 +177,16 @@ try {
   git config --global user.email "<>"
   git config --global user.name "GitHub Actions"
 
-  write-host "--- committing updates"
+  write-host "--- adding updates"
   git add -A
+
+  write-host "--- commiting updates"
   git commit -a -m "Initial commit $($project.jira_ticket)"
+
+  write-host "--- pushing updates"
   git push origin main
+
+  get-location
 
 }
 catch {
