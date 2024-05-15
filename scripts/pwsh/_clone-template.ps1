@@ -122,7 +122,7 @@ function Update-ActionVariable {
     [string]$variableName,
     [string]$variableValue
   )
-  gh variable set $secretName --body $secretValue --app actions --repo wcenterprises/$($project.repository)  
+  gh variable set $variableName --body $variableValue --app actions --repo wcenterprises/$($project.repository)  
 }
 
 $DESCRIPTION="Created by repo-manager, $((get-date -AsUTC).tostring("yyy-MM-dd HH:mm")) submitted by @$($env:GITHUB_ACTOR), Jira-Ticket: $($project.jira_ticket)"
@@ -147,12 +147,11 @@ try {
   gh repo edit "wcenterprises/$($project.repository)" --add-topic "tvm-219898-219901"
   gh repo edit "wcenterprises/$($project.repository)" --add-topic "dotnet"
 
-  write-host "adding teams standard teams" -ForegroundColor Blue
-  Set-RepositoryTeam -teamName "digital-is-superuser" -permission "push"
+  write-host "adding teams standard teams"
   Set-RepositoryTeam -teamName "digital-is-build" -permission "admin"
   
   $project.teams | foreach-object {
-    write-host "adding team $($_)" -ForegroundColor Blue   
+    write-host "adding team $($_)"
     Set-RepositoryTeam -teamName "$($_)" -permission "push"
   }
 
@@ -176,8 +175,8 @@ try {
   
   $README_TEMPLATE | out-file ./README.md
 
-  git config --global user.email "you@example.com"
-  git config --global user.name "RepoManager"
+  git config --global user.email "<>"
+  git config --global user.name "GitHub Actions"
 
   write-host "committing updates" -ForegroundColor Blue   
   git add -A
