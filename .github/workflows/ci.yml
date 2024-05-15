@@ -26,17 +26,11 @@ jobs:
         with:
           fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
 
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
-
       - id: setup
         run: |
           $baseDirectory = (get-item "${{ github.workspace }}").parent.fullpath
           write-output "base-directory=$baseDirectory" >> $GITHUB_OUTPUT
         shell: pwsh
-
-      - uses: actions/checkout@v4
 
       - id: validate
         run: |
