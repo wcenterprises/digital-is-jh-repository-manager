@@ -26,7 +26,11 @@ jobs:
 
       - id: validate
         run: |
-          . ./scripts/pwsh/_validate-input.ps1 -sha '${{ github.sha }}' -eventname "${{ github.event_name }}" -eventbefore "${{ github.event.before }}" -eventafter "${{ github.event.after }}"
+          . ./scripts/pwsh/_validate-input.ps1 `
+              -sha '${{ github.sha }}' `
+              -eventname "${{ github.event_name }}" `
+              -eventbefore "${{ github.event.before }}" `
+              -eventafter "${{ github.event.after }}"
         shell: pwsh
 
   create-repository:
