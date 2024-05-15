@@ -132,6 +132,8 @@ try {
     exit 1
   }
 
+  set-location "../"
+
   write-host "--- creating repository wcenterprises/$($project.repository)"
   gh repo create wcenterprises/$($project.repository) --private --template $template --clone --description $DESCRIPTION
   $item=get-item $($project.repository)
@@ -173,7 +175,7 @@ try {
   
   $README_TEMPLATE | out-file ./README.md
 
-  git config --global user.email "<>"
+  git config --global user.email "brian-kc@outlook.com"
   git config --global user.name "GitHub Actions"
 
   write-host "--- adding updates"
@@ -185,7 +187,11 @@ try {
   write-host "--- pushing updates"
   git push origin main
 
-  get-location
+  write-host "--- creating branch protections"
+  Update-BranchProtection
+
+  write-host "--- updating repository properties"
+  Update-RepositoryProperties
 
 }
 catch {
