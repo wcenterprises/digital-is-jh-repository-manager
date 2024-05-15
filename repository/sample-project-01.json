@@ -1,0 +1,15 @@
+{
+  "name": "project-name",
+  "solution": "solution-name",
+  "jira_ticket": "ticket_number",
+  "teams": [
+    "team name",
+    "other team name"
+  ],
+  "codeowners": [
+    { "path": "*", "owners": "dwhitbeck@jackhenry.com" },
+    { "path": "*", "owners": "name/email/team" },
+    { "path": "/source/*", "owners": "name/email/team" }
+  ],
+  "repo-modifier": "poc-2"
+}

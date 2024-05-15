@@ -1,0 +1,14 @@
+{
+  "name": "Jh.Sample",
+  "solution": "Jh.Sample.sln",
+  "jira_ticket": "ticket_number",
+  "teams": [
+    "team name",
+    "other team name"
+  ],
+  "codeowners": [    
+      "owner1@email.com",
+      "owner2@email.com"
+  ],
+  "repo-modifier": "poc"
+}

@@ -1,0 +1,16 @@
+name: Pull Request Validation
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Cart before the horse.
+      # @tag-name is always the prefered way to use these actions. 
+      # in this case, we want to use main (latest)
+    - uses: wcenterprises/digital-is-build-actions/jira/validate@v3.1
+      with:
+        jira-token: ${{ secrets.JIRA_ACCESS_TOKEN }}

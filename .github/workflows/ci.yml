@@ -1,0 +1,66 @@
+name: Package Manager
+on:
+  pull_request:    
+    types: [opened, edited, synchronize, reopened]
+    branches:
+      - main
+    paths:
+      - repository/*
+
+  push:
+    branches:
+      - main
+    paths:
+      - repository/*
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    outputs: 
+      base-directory: ${{ steps.setup.outputs.base-directory }} 
+      changed-files: ${{ steps.validate.outputs.projects }} 
+
+    steps:
+
+      - id: setup
+        run: |
+          $baseDirectory = (get-item "${{ github.workspace }}").parent.fullpath
+          write-output "base-directory=$baseDirectory" >> $GITHUB_OUTPUT
+        shell: pwsh
+
+      - uses: actions/checkout@v4
+
+      - id: validate
+        run: |
+          write-output "run validation sequence"
+          $projects=./scripts/pwsh/_validate-input.ps1 -sha '${{ github.sha }}'
+          write-output "projects=$projects"  >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+  create-repository:
+    needs: validate
+    if: |
+      always() && 
+      github.ref == 'refs/heads/main' && 
+      github.event_name == 'push' && 
+      needs.validate.result =='success'
+
+    runs-on: windows-latest
+    
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: |
+
+          $projects="${{ needs.validate.outputs.changed-files }}" | convertfrom-json
+          
+          $projects | foreach-object {
+            $project = $_
+            $template = . ./scripts/pwsh/_clone-template.ps1 -project:$project -azdoToken:"${{ secrets.AZDO_NUGET_REPO_ACCESS_TOKEN }}" -jiraToken:"${{ secrets.JIRA_ACCESS_TOKEN }}"
+          }
+        shell: pwsh
+        working-directory: ${{ needs.validate.outputs.base-directory }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+
