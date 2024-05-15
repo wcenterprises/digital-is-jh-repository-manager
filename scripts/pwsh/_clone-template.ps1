@@ -1,9 +1,7 @@
 [CmdletBinding()]
 param(
   $Project,
-  [string]$template='wcenterprises/digital-is-jh-service-template',
-  [string]$azdoToken,
-  [string]$jiraToken
+  [string]$template='wcenterprises/digital-is-jh-service-template'
 )
 if (-not "$($env:GH_TOKEN)") {
   write-host "::error::GH_TOKEN environement variable not found."
@@ -164,6 +162,7 @@ try {
   Update-ActionVariable -variableName "JH_PROJECT_NAME" -variableValue "$($project.name)"
   Update-ActionVariable -variableName "JH_SOLUTION_NAME" -variableValue "$($project.solution)"
   Update-ActionVariable -variableName "PACKAGE_UPDATE_JIRA_TICKET" -variableValue "BSL-2921"
+  $README_TEMPLATE | out-file ./README.md
 
   git config --global user.email "you@example.com"
   git config --global user.name "RepoManager"
