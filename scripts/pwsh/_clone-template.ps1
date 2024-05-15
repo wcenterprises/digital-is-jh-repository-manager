@@ -22,24 +22,6 @@ $README_TEMPLATE=@"
 _Generated: $(Get-Date) by @$($env:GITHUB_ACTOR)_"
 "@
 
-
-function Get-Repository {
-  [CmdletBinding()]
-  param(
-    [string]$owner,
-    [string]$name
-  )
-
-  # GitHub CLI api
-  # https://cli.github.com/manual/gh_api
-
-  gh api `
-    -H "Accept: application/vnd.github+json" `
-    -H "X-GitHub-Api-Version: 2022-11-28" `
-    /repos/$owner/$name | ConvertFrom-Json
-}
-
-
 function Update-BranchProtection {
   gh api `
     --method PUT `
@@ -125,12 +107,6 @@ $saveLocation=get-location
 $item=$null
 
 try {
-
-  write-host "--- check for previous"
-  if (-not $((Get-Repository -owner "wcenterprises" -name $project.repository).message)) {
-    write-host "::error::Duplicate repository name detected $($project.repository)"
-    exit 1
-  }
 
   set-location "../"
 
