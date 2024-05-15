@@ -54,7 +54,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - run: |
-          $projects=${{ needs.validate.outputs.changed-files }} | convertfrom-json
+          $projects='${{ needs.validate.outputs.changed-files }}' | convertfrom-json
           
           $projects | foreach-object {
             $project = $_
