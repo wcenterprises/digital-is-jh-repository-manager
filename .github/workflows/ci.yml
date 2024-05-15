@@ -37,7 +37,6 @@ jobs:
               -eventname "${{ github.event_name }}" `
               -eventbefore "${{ github.event.before }}" `
               -eventafter "${{ github.event.after }}"
-
         shell: pwsh
         
   create-repository:
