@@ -75,7 +75,7 @@ function Set-RepositoryTeam {
     -H "Accept: application/vnd.github+json" `
     -H "X-GitHub-Api-Version: 2022-11-28" `
     /orgs/wcenterprises/teams/$teamName/repos/wcenterprises/$($project.repository) `
-      -f permission="$permission"
+      -f permission=$permission
 }
 
 function Update-RepositoryProperties {
@@ -137,7 +137,8 @@ try {
   $item=get-item $($project.repository)
   set-location $item
 
-  git remote -v
+  write-host "pwd: $((pwd).path)"
+  write-host "remote: $(git remote -v)"
 
   write-host "--- adding topics"
   gh repo edit "wcenterprises/$($project.repository)" --add-topic "tvm-219898-219901"
