@@ -120,11 +120,7 @@ function Update-ActionVariable {
 
 $DESCRIPTION="Created by repo-manager, $((get-date -AsUTC).tostring("yyy-MM-dd HH:mm")) submitted by @$($env:GITHUB_ACTOR), Jira-Ticket: $($project.jira_ticket)"
 
-write-host "getting location"
 $saveLocation=get-location
-
-write-host "--- location $saveLocation"
-
 
 $item=$null
 
@@ -140,6 +136,8 @@ try {
   gh repo create wcenterprises/$($project.repository) --private --template $template --clone --description $DESCRIPTION
   $item=get-item $($project.repository)
   set-location $item
+
+  git remote -v
 
   write-host "--- adding topics"
   gh repo edit "wcenterprises/$($project.repository)" --add-topic "tvm-219898-219901"
