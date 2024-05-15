@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   $Project,
-  [string]$template='wcenterprises/digital-is-jha-service-template',
+  [string]$template='wcenterprises/digital-is-jh-service-template',
   [string]$azdoToken,
   [string]$jiraToken
 )
