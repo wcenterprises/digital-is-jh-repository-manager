@@ -138,7 +138,8 @@ try {
     exit 1
   }
 
-  gh repo create wcenterprises/$($project.repository) --internal --template $template --clone --description $DESCRIPTION
+  write-host "gh repo create wcenterprises/$($project.repository) --private --template $template --clone --description $DESCRIPTION"
+  gh repo create wcenterprises/$($project.repository) --private --template $template --clone --description $DESCRIPTION
   $item=get-item $($project.repository)
   set-location $item
 
