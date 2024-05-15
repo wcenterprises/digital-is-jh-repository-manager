@@ -31,9 +31,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - id: validate
-        run: ./scripts/pwsh/_validate-input.ps1 -sha '${{ github.sha }}' -eventname "${{ github.event_name }}" -eventbefore "${{ github.event.before }}" -eventafter "${{ github.event.after }}"          
+        run: |
+          $projects=. ./scripts/pwsh/_validate-input.ps1 `
+              -sha '${{ github.sha }}' `
+              -eventname "${{ github.event_name }}" `
+              -eventbefore "${{ github.event.before }}" `
+              -eventafter "${{ github.event.after }}"
+
+          write-output "projects=$projects"  >> $env:GITHUB_OUTPUT
         shell: pwsh
-        # write-output "projects=$projects"  >> $env:GITHUB_OUTPUT
+        
   create-repository:
     needs: validate
     if: |
@@ -49,12 +56,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - run: |
-
           $projects="${{ needs.validate.outputs.changed-files }}" | convertfrom-json
           
           $projects | foreach-object {
             $project = $_
-            $template = . ./scripts/pwsh/_clone-template.ps1 -project:$project -azdoToken:"${{ secrets.AZDO_NUGET_REPO_ACCESS_TOKEN }}" -jiraToken:"${{ secrets.JIRA_ACCESS_TOKEN }}"
+            $template = . ./scripts/pwsh/_clone-template.ps1 -project:$project
           }
         shell: pwsh
         working-directory: ${{ needs.validate.outputs.base-directory }}
