@@ -135,7 +135,7 @@ try {
   set-location "../"
 
   write-host "--- creating repository wcenterprises/$($project.repository)"
-  gh repo create wcenterprises/$($project.repository) --private --template $template --clone --description $DESCRIPTION
+  gh repo create wcenterprises/$($project.repository) --public --template $template --clone --description $DESCRIPTION
   $item=get-item $($project.repository)
   set-location $item
 
