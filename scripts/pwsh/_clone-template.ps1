@@ -111,9 +111,9 @@ function Convert-ContentTokens {
     $content
   )  
     $content -replace '\[DATE\]', (get-date).ToString() `
-      -replace '\[PROJECT\-NAME\]', $project.name `
-      -replace '\[SOLUTION\-NAME\]', $project.solution `
-      -replace '\[REPO\-NAME\]', $project.repository `
+      -replace '\[PROJECT\-NAME\]', $($project.name) `
+      -replace '\[SOLUTION\-NAME\]', $($project.solution) `
+      -replace '\[REPO\-NAME\]', $($project.repository) `
       -replace  '\[CODE\-OWNERS\]', "$($project.codeowners -join " ")"
 }
 
@@ -122,7 +122,7 @@ function Update-ActionVariable {
     [string]$variableName,
     [string]$variableValue
   )
-  gh variable set $secretName --body $secretValue --app actions --repo wcenterprises/$projectName  
+  gh variable set $secretName --body $secretValue --app actions --repo wcenterprises/$($project.repository)  
 }
 
 $DESCRIPTION="Created by repo-manager, $((get-date -AsUTC).tostring("yyy-MM-dd HH:mm")) submitted by @$($env:GITHUB_ACTOR), Jira-Ticket: $($project.jira_ticket)"
