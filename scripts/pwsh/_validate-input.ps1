@@ -25,7 +25,7 @@ try {
     $item=get-item $_
     $project=(get-content $item | convertfrom-json)
     $project
-    $project | add-member -notepropertyname repository -notepropertyvalue "$("digital-id-$($project.name.tolower() -replace '\.','-' -replace ' ', '-')")"
+    $project | add-member -notepropertyname repository -notepropertyvalue "$("digital-is-$($project.name.tolower() -replace '\.','-' -replace ' ', '-')")"
     $projects += $project
   }
   if (-not $files) {
