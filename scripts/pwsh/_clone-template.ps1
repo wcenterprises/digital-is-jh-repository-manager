@@ -74,7 +74,7 @@ function Set-RepositoryTeam {
     --method PUT `
     -H "Accept: application/vnd.github+json" `
     -H "X-GitHub-Api-Version: 2022-11-28" `
-    /orgs/wcenterprises/teams/$teamName/repos/wcenterprises/$project.repository `
+    /orgs/wcenterprises/teams/$teamName/repos/wcenterprises/$($project.repository) `
       -f permission="$permission"
 }
 
@@ -111,9 +111,9 @@ function Convert-ContentTokens {
     $content
   )  
     $content -replace '\[DATE\]', (get-date).ToString() `
-      -replace '\[PROJECT-NAME\]', $project.name `
-      -replace '\[SOLUTION-NAME\]', $project.solution `
-      -replace '\[REPO-NAME\]', $project.repository `
+      -replace '\[PROJECT\-NAME\]', $project.name `
+      -replace '\[SOLUTION\-NAME\]', $project.solution `
+      -replace '\[REPO\-NAME\]', $project.repository `
       -replace  '\[CODE\-OWNERS\]', "$($project.codeowners -join " ")"
 }
 
@@ -179,6 +179,7 @@ try {
   git config --global user.email "you@example.com"
   git config --global user.name "RepoManager"
 
+  write-host "committing updates" -ForegroundColor Blue   
   git add -A
   git commit -a -m "Initial commit $($project.jira_ticket)"
   git push origin main
