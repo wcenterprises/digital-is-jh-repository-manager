@@ -40,6 +40,8 @@ jobs:
               -eventbefore "${{ github.event.before }}" `
               -eventafter "${{ github.event.after }}"
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
         
   create-repository:
     needs: validate
@@ -63,4 +65,4 @@ jobs:
         shell: pwsh
         working-directory: ${{ needs.validate.outputs.base-directory }}
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
