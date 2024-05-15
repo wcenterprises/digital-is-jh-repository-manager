@@ -28,6 +28,7 @@ jobs:
 
       - id: setup
         run: |
+          $baseDirectory = (get-item ".").parent.fullpath
           $baseDirectory = (get-item "${{ github.workspace }}").parent.fullpath
           write-host $baseDirectory
           write-output "base-directory=$baseDirectory" >> $env:GITHUB_OUTPUT
