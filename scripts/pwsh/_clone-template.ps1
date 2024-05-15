@@ -135,6 +135,11 @@ $item=$null
 
 try {
 
+  if (-not $((Get-Repository -owner "wcenterprises" -name $project.repository).message)) {
+    write-host "::error::Duplicate repository name detected $($project.repository)"
+    exit 1
+  }
+
   gh repo create wcenterprises/$($project.repository) --internal --template $template --clone --description $DESCRIPTION
   $item=get-item $($project.repository)
   set-location $item
