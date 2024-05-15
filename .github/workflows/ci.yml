@@ -29,8 +29,6 @@ jobs:
       - id: setup
         run: |
           $baseDirectory = (get-item ".").parent.fullpath
-          $baseDirectory = (get-item "${{ github.workspace }}").parent.fullpath
-          write-host $baseDirectory
           write-output "base-directory=$baseDirectory" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
@@ -59,10 +57,12 @@ jobs:
 
       - run: |
           $projects='${{ needs.validate.outputs.changed-files }}' | convertfrom-json
-          
+          cd ..
+          $location=get-location          
           $projects | foreach-object {
             $project = $_
             $template = . ./scripts/pwsh/_clone-template.ps1 -project:$project
+            cd $location
           }
         shell: pwsh
         working-directory: ${{ needs.validate.outputs.base-directory }}
