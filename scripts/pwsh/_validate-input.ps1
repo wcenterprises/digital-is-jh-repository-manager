@@ -8,6 +8,18 @@ param(
   
 )
 
+function Get-Repository {
+  [CmdletBinding()]
+  param(
+    [string]$owner,
+    [string]$name
+  )
+  gh api `
+    -H "Accept: application/vnd.github+json" `
+    -H "X-GitHub-Api-Version: 2022-11-28" `
+    /repos/$owner/$name | ConvertFrom-Json
+}
+
 $projects=@() # Start up an array
 
 try {
@@ -27,6 +39,13 @@ try {
     $project
     $project | add-member -notepropertyname repository -notepropertyvalue "$("digital-is-$($project.name.tolower() -replace '\.','-' -replace ' ', '-')")"
     $projects += $project
+
+    write-host "--- check for previous"
+    if (-not $((Get-Repository -owner "wcenterprises" -name $project.repository).message)) {
+      write-host "::error::Duplicate repository name found $($project.repository)"
+      exit 1
+    }
+
   }
   if (-not $files) {
     throw "No json files detected incoming!"
