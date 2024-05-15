@@ -21,6 +21,10 @@ jobs:
       changed-files: ${{ steps.validate.outputs.projects }} 
 
     steps:
+      
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
 
       - id: setup
         run: |
@@ -37,7 +41,6 @@ jobs:
               -eventname "${{ github.event_name }}" `
               -eventbefore "${{ github.event.before }}" `
               -eventafter "${{ github.event.after }}"
-
         shell: pwsh
         
   create-repository:
