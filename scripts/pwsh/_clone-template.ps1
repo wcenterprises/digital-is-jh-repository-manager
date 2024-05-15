@@ -120,14 +120,17 @@ function Update-ActionVariable {
 
 $DESCRIPTION="Created by repo-manager, $((get-date -AsUTC).tostring("yyy-MM-dd HH:mm")) submitted by @$($env:GITHUB_ACTOR), Jira-Ticket: $($project.jira_ticket)"
 
+"getting location"
 $saveLocation=get-location
 
+"location"
 $saveLocation
 
 $item=$null
 
 try {
 
+  write-host "--- check for previous"
   if (-not $((Get-Repository -owner "wcenterprises" -name $project.repository).message)) {
     write-host "::error::Duplicate repository name detected $($project.repository)"
     exit 1
