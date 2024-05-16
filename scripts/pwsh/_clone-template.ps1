@@ -22,25 +22,10 @@ $README_TEMPLATE=@"
 _Generated: $(Get-Date) by @$($env:GITHUB_ACTOR)_"
 "@
 
-
-function Get-Repository {
-  [CmdletBinding()]
-  param(
-    [string]$owner,
-    [string]$name
-  )
-
-  # GitHub CLI api
-  # https://cli.github.com/manual/gh_api
-
-  gh api `
-    -H "Accept: application/vnd.github+json" `
-    -H "X-GitHub-Api-Version: 2022-11-28" `
-    /repos/$owner/$name | ConvertFrom-Json
-}
-
-
 function Update-BranchProtection {
+  
+  write-host "--- Update branch protection"
+
   gh api `
     --method PUT `
     -H "Accept: application/vnd.github+json" `
@@ -70,6 +55,9 @@ function Set-RepositoryTeam {
     [string]$teamName,
     [string]$permission
   )  
+
+  write-host "------ adding team: $($teamName):$permission"
+
   gh api `
     --method PUT `
     -H "Accept: application/vnd.github+json" `
@@ -79,6 +67,9 @@ function Set-RepositoryTeam {
 }
 
 function Update-RepositoryProperties {
+
+  write-host "--- Updating repository properties"
+
   gh api `
     --method PATCH `
     -H "Accept: application/vnd.github+json" `
@@ -114,7 +105,7 @@ function Update-ActionVariable {
     [string]$variableName,
     [string]$variableValue
   )
-  write-host "------ setting variable $variableName (value: $variableValue)"
+  write-host "------ setting variable: $($variableName):$($variableValue)"
   gh variable set $variableName --body $variableValue --repo wcenterprises/$($project.repository)  
 }
 
@@ -123,6 +114,8 @@ $DESCRIPTION="Created by repo-manager, $((get-date -AsUTC).tostring("yyy-MM-dd H
 $saveLocation=get-location
 
 $item=$null
+
+gci $env:
 
 try {
   set-location "../"
@@ -164,7 +157,6 @@ try {
 
   write-host "--- adding variable PACKAGE_UPDATE_JIRA_TICKET"
   Update-ActionVariable -variableName "PACKAGE_UPDATE_JIRA_TICKET" -variableValue "BSL-2921"
-
   
   $README_TEMPLATE | out-file ./README.md
 
