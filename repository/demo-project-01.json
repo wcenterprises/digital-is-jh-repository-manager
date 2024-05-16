@@ -1,7 +1,7 @@
 {
   "name": "Jh.Demo.Project.01",
   "solution": "Jh.Demo.Project.01.sln",
-  "jira_ticket": "ticket_number",
+  "jira_ticket": "123",
   "teams": [
     "repo-manager"
   ],
