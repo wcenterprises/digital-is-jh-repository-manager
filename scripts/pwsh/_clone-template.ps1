@@ -26,7 +26,7 @@ function Update-BranchProtection {
   
   write-host "------ Update branch protection"
 
-  & gh api `
+  gh api `
     --method PUT `
     -H "Accept: application/vnd.github+json" `
     -H "X-GitHub-Api-Version: 2022-11-28" `
@@ -58,7 +58,7 @@ function Set-RepositoryTeam {
 
   write-host "------ adding team: $($teamName):$permission"
 
-  & gh api `
+  gh api `
     --method PUT `
     -H "Accept: application/vnd.github+json" `
     -H "X-GitHub-Api-Version: 2022-11-28" `
@@ -70,7 +70,7 @@ function Update-RepositoryProperties {
 
   write-host "------ Updating repository properties"
   try {
-    & gh api `
+    gh api `
       --method PATCH `
       -H "Accept: application/vnd.github+json" `
       -H "X-GitHub-Api-Version: 2022-11-28" `
@@ -89,7 +89,10 @@ function Update-RepositoryProperties {
         -F "security_and_analysis[secret_scanning][status]=enabled" 2>$null
   } 
   catch {
-    $LASTEXITCODE=0  
+    throw
+  }
+  finally {
+    $LASTEXITCODE=0
   }
   
 }
