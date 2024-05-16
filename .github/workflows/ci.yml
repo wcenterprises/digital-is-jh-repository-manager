@@ -40,6 +40,8 @@ jobs:
               -eventbefore "${{ github.event.before }}" `
               -eventafter "${{ github.event.after }}"
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
         
   create-repository:
     needs: validate
@@ -59,9 +61,14 @@ jobs:
           $projects | foreach-object {
             $project = $_
             write-output "::notice::creating $($project.repository)"
+<<<<<<< HEAD
             ./scripts/pwsh/_clone-template.ps1 -project:$project  
+=======
+            #& ./scripts/pwsh/_clone-template.ps1 -project:$project  
+>>>>>>> parent of 569af3c (demo 29)
             write-output "::notice::created $($project.repository)"        
           }
-        shell: pwsh        
+        shell: pwsh
+        working-directory: ${{ needs.validate.outputs.base-directory }}
         env:
           GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
