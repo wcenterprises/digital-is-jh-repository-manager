@@ -40,8 +40,6 @@ jobs:
               -eventbefore "${{ github.event.before }}" `
               -eventafter "${{ github.event.after }}"
         shell: pwsh
-        env:
-          GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
         
   create-repository:
     needs: validate
@@ -61,10 +59,9 @@ jobs:
           $projects | foreach-object {
             $project = $_
             write-output "::notice::creating $($project.repository)"
-            #& ./scripts/pwsh/_clone-template.ps1 -project:$project  
+            & ./scripts/pwsh/_clone-template.ps1 -project:$project  
             write-output "::notice::created $($project.repository)"        
           }
-        shell: pwsh
-        working-directory: ${{ needs.validate.outputs.base-directory }}
+        shell: pwsh        
         env:
           GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
