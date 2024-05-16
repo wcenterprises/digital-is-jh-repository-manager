@@ -182,7 +182,6 @@ try {
 
   write-host "--- updating repository properties"
   Update-RepositoryProperties
-
 }
 catch {
   write-host "::error::An error occured cloning the template!"
@@ -195,3 +194,5 @@ finally {
 
 write-output "working-directory=$($item.fullname)" >> $env:GITHUB_OUTPUT
 write-output "working-directory=$($item.fullname)" >> $env:GITHUB_ENV
+
+write-host "--- repository $($project.repository) created!"

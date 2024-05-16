@@ -59,7 +59,7 @@ jobs:
           $projects='${{ needs.validate.outputs.changed-files }}' | convertfrom-json
           $projects | foreach-object {
             $project = $_
-            $template = . ./scripts/pwsh/_clone-template.ps1 -project:$project
+            . ./scripts/pwsh/_clone-template.ps1 -project:$project
           }
         shell: pwsh
         working-directory: ${{ needs.validate.outputs.base-directory }}
