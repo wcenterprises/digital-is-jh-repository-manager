@@ -9,6 +9,8 @@ if (-not "$($env:GH_TOKEN)") {
 }
 
 $README_TEMPLATE=@"
+#$($project.repository)
+
 | | Status |
 |:---|:---|
 | Build | [![ CI ](https://github.com/wcenterprises/$($project.repository)/actions/workflows/ci.yml/badge.svg)](https://github.com/wcenterprises/$($project.repository)/actions/workflows/ci.yml) |
@@ -17,9 +19,7 @@ $README_TEMPLATE=@"
 
 ---
 
----
-
-_Generated: $(Get-Date) by @$($env:GITHUB_ACTOR)_"
+_Generated: $(Get-Date) by @$($env:GITHUB_ACTOR)_
 "@
 
 function Update-BranchProtection {
@@ -86,7 +86,9 @@ function Update-RepositoryProperties {
       -F "squash_merge_commit_message=PR_BODY" `
       -F "has_wiki=true" `
       -F "security_and_analysis[advanced_security][status]=enabled" `
-      -F "security_and_analysis[secret_scanning][status]=enabled"
+      -F "security_and_analysis[secret_scanning][status]=enabled" 2>&1
+      
+  $LASTEXITCODE=0
 }
 
 function Convert-ContentTokens {
@@ -160,9 +162,7 @@ try {
 
   git remote set-url origin https://$($env:GH_TOKEN)@github.com/wcenterprises/$($project.repository).git
 
-  write-host "git config --local user.email $($env:GITHUB_ACTOR)@users.noreply.github.com"
   git config --local user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
-  write-host "git config --local user.name $($env:GITHUB_ACTOR)"
   git config --local user.name "$($env:GITHUB_ACTOR)"
 
   write-host "--- adding updates"
