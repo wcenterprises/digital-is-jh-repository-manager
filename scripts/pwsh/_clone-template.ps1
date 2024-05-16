@@ -160,8 +160,8 @@ try {
   
   $README_TEMPLATE | out-file ./README.md
 
-  git config --global user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
-  git config --global user.name "$($env:GITHUB_ACTOR)"
+  git config --local user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
+  git config --local user.name "$($env:GITHUB_ACTOR)"
 
   write-host "--- adding updates"
   git add -A
