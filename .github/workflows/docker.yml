@@ -1,0 +1,22 @@
+name: Docker Container
+on:
+  [pull_requests, workflow_dispatch, push]
+
+  # pull_request:    
+  #   types: [opened, edited, synchronize, reopened]
+  #   branches:
+  #     - main
+  #   paths:
+  #     - repository/*
+  # 
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - repository/*
+
+  jobs:
+    docker:
+
+      steps: 
+      - run: docker compose
