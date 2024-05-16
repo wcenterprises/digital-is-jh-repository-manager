@@ -24,9 +24,9 @@ _Generated: $(Get-Date) by @$($env:GITHUB_ACTOR)_
 
 function Update-BranchProtection {
   
-  write-host "--- Update branch protection"
+  write-host "------ Update branch protection"
 
-  gh api `
+  & gh api `
     --method PUT `
     -H "Accept: application/vnd.github+json" `
     -H "X-GitHub-Api-Version: 2022-11-28" `
@@ -58,7 +58,7 @@ function Set-RepositoryTeam {
 
   write-host "------ adding team: $($teamName):$permission"
 
-  gh api `
+  & gh api `
     --method PUT `
     -H "Accept: application/vnd.github+json" `
     -H "X-GitHub-Api-Version: 2022-11-28" `
@@ -69,26 +69,29 @@ function Set-RepositoryTeam {
 function Update-RepositoryProperties {
 
   write-host "------ Updating repository properties"
-
-  & gh api `
-    --method PATCH `
-    -H "Accept: application/vnd.github+json" `
-    -H "X-GitHub-Api-Version: 2022-11-28" `
-    /repos/wcenterprises/$($project.repository) `
-      -F "has_issues=false" `
-      -F "has_projects=true" `
-      -F "delete_branch_on_merge=true" `
-      -F "allow_merge_commit=false" `
-      -F "allow_squash_merge=true" `
-      -F "allow_rebase_merge=true" `
-      -F "allow_auto_merge=true" `
-      -F "squash_merge_commit_title=PR_TITLE" `
-      -F "squash_merge_commit_message=PR_BODY" `
-      -F "has_wiki=true" `
-      -F "security_and_analysis[advanced_security][status]=enabled" `
-      -F "security_and_analysis[secret_scanning][status]=enabled" 2>$null
-      
-  $LASTEXITCODE=0
+  try {
+    & gh api `
+      --method PATCH `
+      -H "Accept: application/vnd.github+json" `
+      -H "X-GitHub-Api-Version: 2022-11-28" `
+      /repos/wcenterprises/$($project.repository) `
+        -F "has_issues=false" `
+        -F "has_projects=true" `
+        -F "delete_branch_on_merge=true" `
+        -F "allow_merge_commit=false" `
+        -F "allow_squash_merge=true" `
+        -F "allow_rebase_merge=true" `
+        -F "allow_auto_merge=true" `
+        -F "squash_merge_commit_title=PR_TITLE" `
+        -F "squash_merge_commit_message=PR_BODY" `
+        -F "has_wiki=true" `
+        -F "security_and_analysis[advanced_security][status]=enabled" `
+        -F "security_and_analysis[secret_scanning][status]=enabled" 2>$null
+  } 
+  catch {
+    $LASTEXITCODE=0  
+  }
+  
 }
 
 function Convert-ContentTokens {
