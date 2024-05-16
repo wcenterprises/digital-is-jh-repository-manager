@@ -158,6 +158,8 @@ try {
   
   $README_TEMPLATE | out-file ./README.md
 
+  git remote set-url origin https://$($env:GH_TOKEN)@github.com/wcenterprises/$($project.repository).git
+
   write-host "git config --local user.email $($env:GITHUB_ACTOR)@users.noreply.github.com"
   git config --local user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
   write-host "git config --local user.name $($env:GITHUB_ACTOR)"
