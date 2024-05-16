@@ -15,8 +15,8 @@ on:
   #   paths:
   #     - repository/*
 
-  jobs:
-    docker:
+jobs:
+  docker:
 
-      steps: 
-      - run: docker compose
+    steps: 
+    - run: docker compose
