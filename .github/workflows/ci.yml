@@ -14,23 +14,24 @@ on:
       - repository/*
 
 jobs:
-  validate:
+  create-repository:
+    env: 
+      GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
+
     runs-on: windows-latest
-    outputs: 
-      base-directory: ${{ steps.setup.outputs.base-directory }} 
-      changed-files: ${{ steps.validate.outputs.projects }} 
+    if: |
+      always() && 
+      github.ref == 'refs/heads/main' && 
+      github.event_name == 'push'
 
     steps:
-      
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
 
       - id: setup
         run: |
           $baseDirectory = (get-item ".").parent.fullpath
           write-output "base-directory=$baseDirectory" >> $env:GITHUB_OUTPUT
-        shell: pwsh
+        shell: pwsh      
 
       - id: validate
         run: |
@@ -40,24 +41,11 @@ jobs:
               -eventbefore "${{ github.event.before }}" `
               -eventafter "${{ github.event.after }}"
         shell: pwsh
-        env:
-          GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
-        
-  create-repository:
-    needs: validate
-    runs-on: windows-latest
-    if: |
-      always() && 
-      github.ref == 'refs/heads/main' && 
-      github.event_name == 'push' && 
-      needs.validate.result =='success'
 
-    steps:
-      - uses: actions/checkout@v4
+      - name: create
+        run: |
+          $projects='${{ steps.validate.outputs.changed-files }}' | convertfrom-json
 
-      - run: |
-          $projects='${{ needs.validate.outputs.changed-files }}' | convertfrom-json
-          
           $projects | foreach-object {
             $project = $_
             write-output "::notice::creating $($project.repository)"
@@ -65,6 +53,4 @@ jobs:
             write-output "::notice::created $($project.repository)"        
           }
         shell: pwsh
-        working-directory: ${{ needs.validate.outputs.base-directory }}
-        env:
-          GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
+        working-directory: ${{ steps.setup.outputs.base-directory }}
