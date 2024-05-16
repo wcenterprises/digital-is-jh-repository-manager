@@ -26,6 +26,9 @@ try {
     $project=(get-content $item | convertfrom-json)
     $project
     $project | add-member -notepropertyname repository -notepropertyvalue "$("digital-is-$($project.name.tolower() -replace '\.','-' -replace ' ', '-')")"
+    if ($project.modifier) {
+      $project.repository+="-$($project.modifier.tolower())"
+    }
     $projects += $project
   }
   if (-not $files) {

@@ -125,17 +125,10 @@ $saveLocation=get-location
 $item=$null
 
 try {
-
-  write-host "--- check for previous"
-  if (-not $((Get-Repository -owner "wcenterprises" -name $project.repository).message)) {
-    write-host "::error::Duplicate repository name detected $($project.repository)"
-    exit 1
-  }
-
   set-location "../"
 
   write-host "--- creating repository wcenterprises/$($project.repository)"
-  gh repo create wcenterprises/$($project.repository) --private --template $template --clone --description $DESCRIPTION
+  gh repo create wcenterprises/$($project.repository) --public --template $template --clone --description $DESCRIPTION
   $item=get-item $($project.repository)
   set-location $item
 

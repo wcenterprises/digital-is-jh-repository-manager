@@ -10,5 +10,5 @@
       "owner1@email.com",
       "owner2@email.com"
   ],
-  "repo-modifier": "poc"
+  "modifier": "poc"
 }
