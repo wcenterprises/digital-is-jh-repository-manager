@@ -1,0 +1,13 @@
+{
+  "name": "Jh.Demo.Project.01",
+  "solution": "Jh.Demo.Project.01.sln",
+  "jira_ticket": "ticket_number",
+  "teams": [
+    "repo-manager"
+  ],
+  "codeowners": [
+    "@brian-welsh",
+    "@wcenterprises/repo-manager"
+  ],
+  "repo-modifier": "poc"
+}
