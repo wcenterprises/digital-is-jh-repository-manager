@@ -165,8 +165,8 @@ try {
 
   git remote set-url origin https://$($env:GH_TOKEN)@github.com/wcenterprises/$($project.repository).git
 
-  git config --local user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
-  git config --local user.name "$($env:GITHUB_ACTOR)"
+  #git config --local user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
+  #git config --local user.name "$($env:GITHUB_ACTOR)"
 
   write-host "--- adding updates"
   git add -A
