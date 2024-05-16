@@ -131,9 +131,6 @@ try {
   $item=get-item $($project.repository)
   set-location $item
 
-  write-host "pwd: $((pwd).path)"
-  write-host "remote: $(git remote -v)"
-
   write-host "--- adding topics"
   gh repo edit "wcenterprises/$($project.repository)" --add-topic "tvm-219898-219901"
   gh repo edit "wcenterprises/$($project.repository)" --add-topic "dotnet"
@@ -181,10 +178,10 @@ try {
   git push origin main
 
   write-host "--- creating branch protections"
-  Update-BranchProtection
+  $branchProps=Update-BranchProtection  
 
   write-host "--- updating repository properties"
-  Update-RepositoryProperties
+  $repoProps=Update-RepositoryProperties
 }
 catch {
   write-output "::error::An error occured cloning the template!"
@@ -193,6 +190,7 @@ catch {
 }
 finally {
   set-location $saveLocation
+  remove-item -Path $($project.repository) -Recurse -Force
 }
 
 write-output "::notice::$($project.repository) created!"
