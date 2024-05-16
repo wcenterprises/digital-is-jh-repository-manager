@@ -4,7 +4,7 @@ param(
   [string]$RootDirectory
 )
 if (-not "$($env:GH_TOKEN)") {
-  write-host "::error::GH_TOKEN environement variable not found."
+  write-output "::error::GH_TOKEN environement variable not found."
   throw "GH_TOKEN environement variable not found."
 }
 

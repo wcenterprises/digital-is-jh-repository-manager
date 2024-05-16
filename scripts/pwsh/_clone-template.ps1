@@ -4,7 +4,7 @@ param(
   [string]$template='wcenterprises/digital-is-jh-service-template'
 )
 if (-not "$($env:GH_TOKEN)") {
-  write-host "::error::GH_TOKEN environement variable not found."
+  write-output "::error::GH_TOKEN environement variable not found."
   throw "GH_TOKEN environement variable not found."
 }
 
@@ -184,15 +184,12 @@ try {
   Update-RepositoryProperties
 }
 catch {
-  write-host "::error::An error occured cloning the template!"
-  write-host "::error::$($_.message)"
+  write-output "::error::An error occured cloning the template!"
+  write-output "::error::$($_.message)"
   throw
 }
 finally {
   set-location $saveLocation
 }
 
-write-output "working-directory=$($item.fullname)" >> $env:GITHUB_OUTPUT
-write-output "working-directory=$($item.fullname)" >> $env:GITHUB_ENV
-
-write-host "--- repository $($project.repository) created!"
+write-output "::notice::$($project.repository) created!"
