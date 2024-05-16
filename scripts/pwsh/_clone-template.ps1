@@ -86,7 +86,7 @@ function Update-RepositoryProperties {
         -F "squash_merge_commit_message=PR_BODY" `
         -F "has_wiki=true" `
         -F "security_and_analysis[advanced_security][status]=enabled" `
-        -F "security_and_analysis[secret_scanning][status]=enabled" 2>$null
+        -F "security_and_analysis[secret_scanning][status]=enabled"
   } 
   catch {
     throw
