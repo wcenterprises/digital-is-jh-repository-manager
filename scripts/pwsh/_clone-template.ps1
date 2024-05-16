@@ -182,6 +182,8 @@ try {
 
   write-host "--- updating repository properties"
   $repoProps=Update-RepositoryProperties
+
+  set-location "../"
 }
 catch {
   write-output "::error::An error occured cloning the template!"
@@ -189,8 +191,8 @@ catch {
   throw
 }
 finally {
-  set-location $saveLocation
   remove-item -Path $($project.repository) -Recurse -Force
+  set-location $saveLocation
 }
 
 write-output "::notice::$($project.repository) created!"
