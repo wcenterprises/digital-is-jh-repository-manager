@@ -16,8 +16,8 @@ on:
   #     - repository/*
 
 jobs:
-  runs-on: ubuntu-latest
+  
   docker:
-
+    runs-on: ubuntu-latest
     steps: 
     - run: docker compose
