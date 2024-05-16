@@ -21,21 +21,20 @@ try {
   # We only want the .json files
   $files=($items | where-object { $_ -match '\.json$' })
   $files | foreach-object {
-    write-output "::debug::Item: $($_)"    
-    $item=get-item $_
-    $project=(get-content $item | convertfrom-json)
-    $project
-    $project | add-member -notepropertyname repository -notepropertyvalue "$("digital-is-$($project.name.tolower() -replace '\.','-' -replace ' ', '-')")"
-    if ($project.modifier) {
-      $project.repository+="-$($project.modifier.tolower())"
+    write-output "::debug::Item: $($_)"
+    if (test-path $_) {
+      $item=get-item $_
+      $project=(get-content $item | convertfrom-json)
+      $project
+      $project | add-member -notepropertyname repository -notepropertyvalue "$("digital-is-$($project.name.tolower() -replace '\.','-' -replace ' ', '-')")"
+      if ($project.modifier) {
+        $project.repository+="-$($project.modifier.tolower())"
+      }
+      $projects += $project
     }
-    $projects += $project
   }
-  if (-not $files) {
-    throw "No json files detected incoming!"
-  }
-  if ($projects.count -eq 0) {
-    throw "No projects collected!"
+  if (-not $files -or ($projects.count -eq 0)) {
+    write-output "::notice::No input files found. Nothing to do."
   }
 }
 catch {

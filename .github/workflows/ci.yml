@@ -27,14 +27,16 @@ jobs:
           fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
 
       - id: setup
+        name: setup environment
         run: |
           $baseDirectory = (get-item ".").parent.fullpath
           write-output "base-directory=$baseDirectory" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
       - id: validate
+        name: validate input
         run: |
-          & ./scripts/pwsh/_validate-input.ps1 `
+          ./scripts/pwsh/_validate-input.ps1 `
               -sha '${{ github.sha }}' `
               -eventname "${{ github.event_name }}" `
               -eventbefore "${{ github.event.before }}" `
@@ -50,12 +52,14 @@ jobs:
       always() && 
       github.ref == 'refs/heads/main' && 
       github.event_name == 'push' && 
-      needs.validate.result =='success'
+      needs.validate.result =='success' &&
+      needs.validate.outputs.changed-files != ''
 
     steps:
       - uses: actions/checkout@v4
 
-      - run: |
+      - name: generate repositories
+        run: |
           $projects='${{ needs.validate.outputs.changed-files }}' | convertfrom-json
           
           $projects | foreach-object {

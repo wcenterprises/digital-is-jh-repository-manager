@@ -7,8 +7,8 @@
     "other team name"
   ],
   "codeowners": [    
-      "owner1@email.com",
-      "owner2@email.com"
-  ],
-  "modifier": "poc"
+      "@banno/team name",
+      "owner2@email.com",
+      "@github user name"
+  ]
 }

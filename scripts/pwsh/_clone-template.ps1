@@ -195,6 +195,6 @@ catch {
 }
 finally {
   remove-item -Path $($project.repository) -Recurse -Force
-  set-location $saveLocation
+  # set-location $saveLocation
 }
-exit 0
+# exit 0
