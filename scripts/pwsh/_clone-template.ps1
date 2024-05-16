@@ -68,9 +68,9 @@ function Set-RepositoryTeam {
 
 function Update-RepositoryProperties {
 
-  write-host "--- Updating repository properties"
+  write-host "------ Updating repository properties"
 
-  gh api `
+  & gh api `
     --method PATCH `
     -H "Accept: application/vnd.github+json" `
     -H "X-GitHub-Api-Version: 2022-11-28" `
@@ -86,7 +86,7 @@ function Update-RepositoryProperties {
       -F "squash_merge_commit_message=PR_BODY" `
       -F "has_wiki=true" `
       -F "security_and_analysis[advanced_security][status]=enabled" `
-      -F "security_and_analysis[secret_scanning][status]=enabled" 2>&1
+      -F "security_and_analysis[secret_scanning][status]=enabled" 2>$null
       
   $LASTEXITCODE=0
 }
