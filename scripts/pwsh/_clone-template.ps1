@@ -115,7 +115,7 @@ $saveLocation=get-location
 
 $item=$null
 
-gci $env:
+gci env:
 
 try {
   set-location "../"
