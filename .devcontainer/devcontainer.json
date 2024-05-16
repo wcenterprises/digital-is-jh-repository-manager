@@ -8,7 +8,6 @@
 		"ghcr.io/devcontainers/features/dotnet:2": {},
 		"ghcr.io/devcontainers/features/powershell:1": {},
 		"ghcr.io/devcontainers-contrib/features/act-asdf:2": {},
-		"ghcr.io/devcontainers-contrib/features/powershell:1": {},
 		"ghcr.io/cirolosapio/devcontainers-features/alpine-gh-cli:0": {},
 		"ghcr.io/devcontainers-contrib/features/gh-cli:1": {},
 		"ghcr.io/msclock/features/gitlab-ci-local:0": {},
