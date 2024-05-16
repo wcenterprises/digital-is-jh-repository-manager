@@ -60,9 +60,9 @@ jobs:
           
           $projects | foreach-object {
             $project = $_
-            write-output "::notice::creating $($project.repository)"
+            write-output "::notice::- creating $($project.repository)"
             ./scripts/pwsh/_clone-template.ps1 -project:$project  
-            write-output "::notice::created $($project.repository)"        
+            write-output "::notice::- created $($project.repository)"        
           }
         shell: pwsh
         working-directory: ${{ needs.validate.outputs.base-directory }}

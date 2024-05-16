@@ -168,8 +168,8 @@ try {
   #git config --local user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
   #git config --local user.name "$($env:GITHUB_ACTOR)"
 
-  git config --global user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
-  git config --global user.name "$($env:GITHUB_ACTOR)"
+  git config user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
+  git config user.name "$($env:GITHUB_ACTOR)"
 
   write-host "--- adding updates"
   git add -A
@@ -197,5 +197,4 @@ finally {
   remove-item -Path $($project.repository) -Recurse -Force
   set-location $saveLocation
 }
-
-write-output "::notice::$($project.repository) created!"
+exit 0
