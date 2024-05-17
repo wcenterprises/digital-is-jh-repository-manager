@@ -15,7 +15,7 @@ on:
 
 jobs:
   validate:
-    runs-on: linux-latest
+    runs-on: ubuntu-latest
     outputs: 
       base-directory: ${{ steps.setup.outputs.base-directory }} 
       changed-files: ${{ steps.validate.outputs.projects }} 
