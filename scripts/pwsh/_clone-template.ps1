@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   $Project,
-  [string]$template='${env:PROJECT-OWNER}/digital-is-jh-service-template'
+  [string]$template="${env:PROJECT-OWNER}/digital-is-jh-service-template"
 )
 if (-not "$($env:GH_TOKEN)") {
   write-output "::error::GH_TOKEN environement variable not found."
