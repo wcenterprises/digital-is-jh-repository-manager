@@ -147,7 +147,7 @@ try {
 
   $files=get-childitem -Recurse -include 'Dockerfile','CODEOWNERS','*.yml','README.md','Jenkinsfile'
   $files | foreach-object {
-    write-host "--- updating file $(resolve-path $_.fullname -Relative)" -ForegroundColor Blue
+    write-host "--- updating file $(resolve-path $_.fullname -Relative)"
     $resultcontent=get-content $_.fullname
     $alteredcontent=Convert-ContentTokens -content:$resultcontent
     $alteredcontent | out-file $_.fullname -force
@@ -169,20 +169,26 @@ try {
   git config user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
   git config user.name "$($env:GITHUB_ACTOR)"
 
+  write-output "1: LASTEXITCODE: $LASTEXITCODE"
   write-host "--- adding updates"
   git add -A
+  write-output "2: LASTEXITCODE: $LASTEXITCODE"
 
   write-host "--- commiting updates"
   git commit -a -m "Initial commit $($project.jira_ticket)"
+  write-output "3: LASTEXITCODE: $LASTEXITCODE"
 
   write-host "--- pushing updates"
   git push origin main
+  write-output "4: LASTEXITCODE: $LASTEXITCODE"
 
   write-host "--- creating branch protections"
   $branchProps=Update-BranchProtection  
+  write-output "5: LASTEXITCODE: $LASTEXITCODE"
 
   write-host "--- updating repository properties"
   $repoProps=Update-RepositoryProperties
+  write-output "6: LASTEXITCODE: $LASTEXITCODE"
 
   set-location "../"
 }
