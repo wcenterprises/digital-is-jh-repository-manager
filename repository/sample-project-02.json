@@ -1,0 +1,14 @@
+{
+  "name": "Jh.Sample-02",
+  "solution": "Jh.Sample-02.sln",
+  "jira_ticket": "ticket_number",
+  "teams": [
+    "wcenterprises/digital-is-build",
+    "wcenterprises/digital-is-superuser"
+  ],
+  "codeowners": [    
+      "@wcenterprises/digital-is-superuser",
+      "brian-kc@outlook.com",
+      "@brian-welsh"
+  ]
+}
