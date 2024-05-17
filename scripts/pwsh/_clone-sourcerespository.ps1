@@ -11,7 +11,7 @@ $saveLocation = get-location
 $item=$null
 
 try {
-  $repositoryName = $repository -replace '[PROJECT-OWNER]/',''
+  $repositoryName = $repository -replace '\[PROJECT\-OWNER\]/',''
   gh repo clone $repository
   $item = get-item $repositoryName
 }

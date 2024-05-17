@@ -52,7 +52,6 @@ jobs:
     runs-on: windows-latest
     env:
       GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
-      PROJECT-OWNER: 'wcenterprises'
 
     if: |
       always() && 
@@ -72,7 +71,7 @@ jobs:
             $project = $_
             write-output "::notice::- creating $($project.repository)"
             . ./scripts/pwsh/_clone-template.ps1 -project:$project  
-            write-output "::notice::- created https://github.com/${env:PROJECT-OWNER}/$($project.repository)"        
+            write-output "::notice::- created https://github.com/${{github.repository.owner}}/$($project.repository)"        
           }
         shell: pwsh
         working-directory: ${{ needs.validate.outputs.base-directory }}
