@@ -19,7 +19,10 @@ function Test-Repository {
     /repos/$owner/$name | convertfrom-json
 
   if ("$($result.full_name)") {
-    write-output $result
+    write-output $true
+  }
+  else {
+    $false
   }
 }
 
