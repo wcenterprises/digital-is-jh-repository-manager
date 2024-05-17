@@ -106,7 +106,7 @@ function Convert-ContentTokens {
       -replace '\[SOLUTION\-NAME\]', $($project.solution) `
       -replace '\[REPO\-NAME\]', $($project.repository) `
       -replace '\[CODE\-OWNERS\]', "$($project.codeowners -join " ")" `
-      -replace '\[PROJECT-\OWNER\]', "${env:PROJECT-OWNER}"
+      -replace '\[PROJECT\-OWNER\]', "${env:PROJECT-OWNER}"
 }
 
 function Update-ActionVariable {
@@ -165,9 +165,6 @@ try {
   $README_TEMPLATE | out-file ./README.md
 
   git remote set-url origin https://$($env:GH_TOKEN)@github.com/${env:PROJECT-OWNER}/$($project.repository).git
-
-  #git config --local user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
-  #git config --local user.name "$($env:GITHUB_ACTOR)"
 
   git config user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
   git config user.name "$($env:GITHUB_ACTOR)"
