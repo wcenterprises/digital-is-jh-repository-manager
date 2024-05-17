@@ -18,12 +18,7 @@ function Test-Repository {
     -H "X-GitHub-Api-Version: 2022-11-28" `
     /repos/$owner/$name | convertfrom-json
 
-  if ("$($result.full_name)") {
-    write-output $true
-  }
-  else {
-    $false
-  }
+  return ("$($result.full_name)" -ne "")
 }
 
 $projects=@() # Start up an array
