@@ -18,6 +18,8 @@ function Test-Repository {
     -H "X-GitHub-Api-Version: 2022-11-28" `
     /repos/$owner/$name | convertfrom-json
 
+    $global:LASTEXITCODE=0
+
   return ("$($result.full_name)" -ne "")
 }
 
