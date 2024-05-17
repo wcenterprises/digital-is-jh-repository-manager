@@ -13,6 +13,7 @@ function Test-Repository {
     [string]$owner=${env:GITHUB_REPOSITORY_OWNER},
     [string]$name
   )
+  write-output "----- Checking repository '$owner/$name'"
   $result=gh api `
     -H "Accept: application/vnd.github+json" `
     -H "X-GitHub-Api-Version: 2022-11-28" `
