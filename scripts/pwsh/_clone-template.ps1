@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   $Project,
-  [string]$template='wcenterprises/digital-is-jh-service-template'
+  [string]$template='${env:PROJECT-OWNER}/digital-is-jh-service-template'
 )
 if (-not "$($env:GH_TOKEN)") {
   write-output "::error::GH_TOKEN environement variable not found."
@@ -13,9 +13,9 @@ $README_TEMPLATE=@"
 
 | | Status |
 |:---|:---|
-| Build | [![ CI ](https://github.com/wcenterprises/$($project.repository)/actions/workflows/ci.yml/badge.svg)](https://github.com/wcenterprises/$($project.repository)/actions/workflows/ci.yml) |
-| Unit Tests | [![ Unit Tests ](https://github.com/wcenterprises/$($project.repository)/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/wcenterprises/$($project.repository)/actions/workflows/unit-tests.yml)|
-| CodeQL | [![ CodeQL ](https://github.com/wcenterprises/$($project.repository)/actions/workflows/codeql.yml/badge.svg)](https://github.com/wcenterprises/$($project.repository)/actions/workflows/codeql.yml)|
+| Build | [![ CI ](https://github.com/${env:PROJECT-OWNER}/$($project.repository)/actions/workflows/ci.yml/badge.svg)](https://github.com/${env:PROJECT-OWNER}/$($project.repository)/actions/workflows/ci.yml) |
+| Unit Tests | [![ Unit Tests ](https://github.com/${env:PROJECT-OWNER}/$($project.repository)/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/${env:PROJECT-OWNER}/$($project.repository)/actions/workflows/unit-tests.yml)|
+| CodeQL | [![ CodeQL ](https://github.com/${env:PROJECT-OWNER}/$($project.repository)/actions/workflows/codeql.yml/badge.svg)](https://github.com/${env:PROJECT-OWNER}/$($project.repository)/actions/workflows/codeql.yml)|
 
 ---
 
@@ -30,7 +30,7 @@ function Update-BranchProtection {
     --method PUT `
     -H "Accept: application/vnd.github+json" `
     -H "X-GitHub-Api-Version: 2022-11-28" `
-    /repos/wcenterprises/$($project.repository)/branches/main/protection `
+    /repos/${env:PROJECT-OWNER}/$($project.repository)/branches/main/protection `
       -F "required_status_checks[strict]=true" `
       -F "required_status_checks[checks][][context]=pull-request-validation" `
       -F "required_status_checks[checks][][app_id]=15368" `
@@ -62,7 +62,7 @@ function Set-RepositoryTeam {
     --method PUT `
     -H "Accept: application/vnd.github+json" `
     -H "X-GitHub-Api-Version: 2022-11-28" `
-    /orgs/wcenterprises/teams/$teamName/repos/wcenterprises/$($project.repository) `
+    /orgs/${env:PROJECT-OWNER}/teams/$teamName/repos/${env:PROJECT-OWNER}/$($project.repository) `
       -f permission=$permission
 }
 
@@ -74,7 +74,7 @@ function Update-RepositoryProperties {
       --method PATCH `
       -H "Accept: application/vnd.github+json" `
       -H "X-GitHub-Api-Version: 2022-11-28" `
-      /repos/wcenterprises/$($project.repository) `
+      /repos/${env:PROJECT-OWNER}/$($project.repository) `
         -F "has_issues=false" `
         -F "has_projects=true" `
         -F "delete_branch_on_merge=true" `
@@ -105,7 +105,8 @@ function Convert-ContentTokens {
       -replace '\[PROJECT\-NAME\]', $($project.name) `
       -replace '\[SOLUTION\-NAME\]', $($project.solution) `
       -replace '\[REPO\-NAME\]', $($project.repository) `
-      -replace  '\[CODE\-OWNERS\]', "$($project.codeowners -join " ")"
+      -replace '\[CODE\-OWNERS\]', "$($project.codeowners -join " ")" `
+      -replace '\[PROJECT-\OWNER\]', "${env:PROJECT-OWNER}"
 }
 
 function Update-ActionVariable {
@@ -114,7 +115,7 @@ function Update-ActionVariable {
     [string]$variableValue
   )
   write-host "------ setting variable: $($variableName):$($variableValue)"
-  gh variable set $variableName --body $variableValue --repo wcenterprises/$($project.repository)  
+  gh variable set $variableName --body $variableValue --repo ${env:PROJECT-OWNER}/$($project.repository)  
 }
 
 $DESCRIPTION="Created by repo-manager, $((get-date -AsUTC).tostring("yyy-MM-dd HH:mm")) submitted by @$($env:GITHUB_ACTOR), Jira-Ticket: $($project.jira_ticket)"
@@ -126,14 +127,14 @@ $item=$null
 try {
   set-location "../"
 
-  write-host "--- creating repository wcenterprises/$($project.repository)"
-  gh repo create wcenterprises/$($project.repository) --public --template $template --clone --description $DESCRIPTION
+  write-host "--- creating repository ${env:PROJECT-OWNER}/$($project.repository)"
+  gh repo create ${env:PROJECT-OWNER}/$($project.repository) --public --template $template --clone --description $DESCRIPTION
   $item=get-item $($project.repository)
   set-location $item
 
   write-host "--- adding topics"
-  gh repo edit "wcenterprises/$($project.repository)" --add-topic "tvm-219898-219901"
-  gh repo edit "wcenterprises/$($project.repository)" --add-topic "dotnet"
+  gh repo edit "${env:PROJECT-OWNER}/$($project.repository)" --add-topic "tvm-219898-219901"
+  gh repo edit "${env:PROJECT-OWNER}/$($project.repository)" --add-topic "dotnet"
 
   write-host "--- adding teams standard teams"
   Set-RepositoryTeam -teamName "digital-is-build" -permission "admin"
@@ -144,7 +145,7 @@ try {
     Set-RepositoryTeam -teamName "$($_)" -permission "push"
   }
 
-  $files=get-childitem -Recurse -include 'Dockerfile','CODEOWNERS','*.yml','README.md'
+  $files=get-childitem -Recurse -include 'Dockerfile','CODEOWNERS','*.yml','README.md','Jenkinsfile'
   $files | foreach-object {
     write-host "--- updating file $(resolve-path $_.fullname -Relative)" -ForegroundColor Blue
     $resultcontent=get-content $_.fullname
@@ -163,7 +164,7 @@ try {
   
   $README_TEMPLATE | out-file ./README.md
 
-  git remote set-url origin https://$($env:GH_TOKEN)@github.com/wcenterprises/$($project.repository).git
+  git remote set-url origin https://$($env:GH_TOKEN)@github.com/${env:PROJECT-OWNER}/$($project.repository).git
 
   #git config --local user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
   #git config --local user.name "$($env:GITHUB_ACTOR)"
