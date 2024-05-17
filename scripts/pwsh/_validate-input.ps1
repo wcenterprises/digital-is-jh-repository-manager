@@ -4,9 +4,24 @@ param(
   [string]$sha,
   [string]$EventName,
   [string]$EventBefore,
-  [string]$EventAfter
-  
+  [string]$EventAfter  
 )
+
+function Test-Repository {
+  [CmdletBinding()]
+  param(
+    [string]$owner=${env:GITHUB_REPOSITORY_OWNER},
+    [string]$name
+  )
+  $result=gh api `
+    -H "Accept: application/vnd.github+json" `
+    -H "X-GitHub-Api-Version: 2022-11-28" `
+    /repos/$owner/$name | convertfrom-json
+
+  if ("$($result.full_name)") {
+    write-output $result
+  }
+}
 
 $projects=@() # Start up an array
 
@@ -30,7 +45,13 @@ try {
       if ($project.modifier) {
         $project.repository+="-$($project.modifier.tolower())"
       }
-      $projects += $project
+      if ($(test-repository -name $project.name)) {
+        write-output "::warning::Repository `"$($project.name)`" already exists. Skipping!"
+      }
+      else {
+        $projects += $project
+      }
+      
     }
   }
   if (-not $files -or ($projects.count -eq 0)) {
