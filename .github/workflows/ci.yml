@@ -70,7 +70,7 @@ jobs:
             $project = $_
             write-output "::notice::- creating $($project.repository)"
             . ./scripts/pwsh/_clone-template.ps1 -project:$project  
-            write-output "::notice::- created https://github.com/${{github.repository.owner}}/$($project.repository)"        
+            write-output "::notice::Created https://github.com/${env:GITHUB_REPOSITORY_OWNER}/$($project.repository)"        
           }
         shell: pwsh
         working-directory: ${{ needs.validate.outputs.base-directory }}

@@ -92,7 +92,7 @@ function Update-RepositoryProperties {
     throw
   }
   finally {
-    $LASTEXITCODE=0
+    $global:LASTEXITCODE=0
   }
   
 }
@@ -169,26 +169,20 @@ try {
   git config user.email "$($env:GITHUB_ACTOR)@users.noreply.github.com"
   git config user.name "$($env:GITHUB_ACTOR)"
 
-  write-output "1: LASTEXITCODE: $LASTEXITCODE"
   write-host "--- adding updates"
   git add -A
-  write-output "2: LASTEXITCODE: $LASTEXITCODE"
 
   write-host "--- commiting updates"
   git commit -a -m "Initial commit $($project.jira_ticket)"
-  write-output "3: LASTEXITCODE: $LASTEXITCODE"
 
   write-host "--- pushing updates"
   git push origin main
-  write-output "4: LASTEXITCODE: $LASTEXITCODE"
 
   write-host "--- creating branch protections"
   $branchProps=Update-BranchProtection  
-  write-output "5: LASTEXITCODE: $LASTEXITCODE"
 
   write-host "--- updating repository properties"
   $repoProps=Update-RepositoryProperties
-  write-output "6: LASTEXITCODE: $LASTEXITCODE"
 
   set-location "../"
 }
@@ -199,5 +193,3 @@ catch {
 }
 finally {
 }
-
-exit 0
