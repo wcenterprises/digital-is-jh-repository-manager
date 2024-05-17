@@ -45,8 +45,8 @@ try {
       if ($project.modifier) {
         $project.repository+="-$($project.modifier.tolower())"
       }
-      if ($(test-repository -name $project.name)) {
-        write-output "::warning::Repository `"$($project.name)`" already exists. Skipping!"
+      if (test-repository -name $project.repository) {
+        write-output "::warning::Repository `"$($project.repository)`" already exists. Skipping!"
       }
       else {
         $projects += $project
