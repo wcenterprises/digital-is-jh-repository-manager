@@ -6,6 +6,14 @@
 1. Create a new json file defining the properties of the new repository inside the directory [repository](./repository/). 
     1. Be sure to use a unique name, prefferabley using the name of the new projects. (i.e. Jh.NewService.json)
     1. For your convenience you may copy [./docs/sample-project.json](./docs/sample-project.json)
+1. Commit the new file and push the branch.
+1. Create a pull request following reveiw and approval process as with any code change. 
+1. When the PR has the necessary approvals complete the merge. When the merge is completed and the CI script is run successfully your new repo will be created. 
+
+## Problems
+If you have created the repository in error several things can be done to correct the error. Engage the build team to determine the best approach to correcting the proplem
+
+Repositories created in error can be deleted by requesting their deletion using [jhNow](https://jhnow.service-now.com/esc?id=sc_cat_item&sys_id=8b23353c470965d0365e3e48436d4386). 
 
 
 ### Json Schema
@@ -17,7 +25,7 @@
   "jira_ticket": "ticket_number",         /* the issue item associated with the creation of the repository */
   "teams": [
     "banno/team name",                          
-    "banno/other team name"                     /* repeat for each team */
+    "banno/other team name"               /* repeat for each team */
   ],
   "codeowners": [                         /* combination of emails/GH id and/or GH teams */
     "owner1@email",                       /* Use owner's email or GH id DO NOT ADD dwhitbeck@jackhenry.com */ 
