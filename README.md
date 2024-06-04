@@ -1,9 +1,9 @@
-#Repository Manager
+# Repository Manager
 
-##Quckstart
+## Quckstart
 1. Create a json file
 
-###Json Schema
+### Json Schema
 
 ```json
 {
