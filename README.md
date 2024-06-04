@@ -23,7 +23,7 @@
 ```
 
 | Property | Description |
-|----------|-------------|
+|:----------|:-------------|
 | name | name of the project |
 | solution | name of the solution file |
 | jira_ticket | JIRA id of the ticket tracking this new repository |
