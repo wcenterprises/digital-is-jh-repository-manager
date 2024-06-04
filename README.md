@@ -4,8 +4,8 @@
 1. Clone a local copy of this repository
 1. Create a new development branch
 1. Create a new json file defining the properties of the new repository inside the directory [repository](./repository/). 
-    a. Be sure to use a unique name, prefferabley using the name of the new projects. (i.e. Jh.NewService.json)
-    a. For your convenience you may copy [./docs/sample-project.json](./docs/sample-project.json)
+    i. Be sure to use a unique name, prefferabley using the name of the new projects. (i.e. Jh.NewService.json)
+    i. For your convenience you may copy [./docs/sample-project.json](./docs/sample-project.json)
 
 
 ### Json Schema
