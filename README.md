@@ -37,9 +37,9 @@ Repositories created in error can be deleted by requesting their deletion using 
 
 | Property | Description |
 |:----------|:-------------|
-| *name* | name of the project (i.e. Jh.NewService) |
-| *solution* | name of the solution file (i.e. Jh.NewService.sln) |
-| *jira_ticket* | JIRA id of the ticket tracking this new repository (i.e. ABC-123)|
-| *teams* | array of team names to grant access (i.e. banno/bsl). _*Note:* do not include digital-is-buid, digital-is-superuser_ |
-| *codeowners* | array of users to be added as codeowners using their @jhacorp.com or github user name (i.e. @banno/bsl) _*Note:* Do not include dwhitbeck@jhacorp.com, banno/digital-is-build, banno/digital-is-superusers_ |
-| *repo-modifier* | [optional]  use "poc" when the new repo is to be used for practice/debugging. This will make the repo easily identifiable _*Note:* Only affects the naming of the new repository_ |
+| **name** | name of the project (i.e. Jh.NewService) |
+| **solution** | name of the solution file (i.e. Jh.NewService.sln) |
+| **jira_ticket** | JIRA id of the ticket tracking this new repository (i.e. ABC-123)|
+| **teams** | array of team names to grant access (i.e. banno/bsl). _**Note:** do not include digital-is-buid, digital-is-superuser_ |
+| **codeowners** | array of users to be added as codeowners using their @jhacorp.com or github user name (i.e. @banno/bsl) _**Note:** Do not include dwhitbeck@jhacorp.com, banno/digital-is-build, banno/digital-is-superusers_ |
+| **repo-modifier** | [optional]  use "poc" when the new repo is to be used for practice/debugging. This will make the repo easily identifiable _**Note:** Only affects the naming of the new repository_ |
