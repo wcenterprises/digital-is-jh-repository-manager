@@ -1,3 +1,10 @@
+#Repository Manager
+
+##Quckstart
+1. Create a json file
+
+###Json Schema
+
 ```json
 {
   "name": "project-name",                 /* name of project. i.e. Jh.Sample */
@@ -14,3 +21,12 @@
   "repo-modifier": "poc"                  /* *OPTIONAL* a modify which which will be appended to the name of the repository created */
 }
 ```
+
+| Property | Description |
+|----------|-------------|
+| name | name of the project |
+| solution | name of the solution file |
+| jira_ticket | JIRA id of the ticket tracking this new repository |
+| teams | array of team names to grant access |
+| codeowners | array of users to be added as codeowners using their @jhacorp.com or github user name |
+| repo-modifier | [optional]  use "poc" when the new repo is to be used for practice/debugging. This will make the repo easily identifiable |
