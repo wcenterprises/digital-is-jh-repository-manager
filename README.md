@@ -1,7 +1,12 @@
 # Repository Manager
 
 ## Quckstart
-1. Create a json file
+1. Clone a local copy of this repository
+1. Create a new development branch
+1. Create a new json file defining the properties of the new repository inside the directory [repository](./repository/). 
+  1. Be sure to use a unique name, prefferabley using the name of the new projects. (i.e. Jh.NewService.json)
+  1. For your convenience you may copy [./docs/sample-project.json](./docs/sample-project.json)
+
 
 ### Json Schema
 
@@ -28,5 +33,5 @@
 | *solution* | name of the solution file (i.e. Jh.NewService.sln) |
 | *jira_ticket* | JIRA id of the ticket tracking this new repository (i.e. ABC-123)|
 | *teams* | array of team names to grant access (i.e. banno/bsl). _*Note:* do not include digital-is-buid, digital-is-superuser_ |
-| *codeowners* | array of users to be added as codeowners using their @jhacorp.com or github user name |
-| *repo-modifier* | [optional]  use "poc" when the new repo is to be used for practice/debugging. This will make the repo easily identifiable |
+| *codeowners* | array of users to be added as codeowners using their @jhacorp.com or github user name (i.e. @banno/bsl) _*Note:* Do not include dwhitbeck@jhacorp.com, banno/digital-is-build, banno/digital-is-superusers_ |
+| *repo-modifier* | [optional]  use "poc" when the new repo is to be used for practice/debugging. This will make the repo easily identifiable _*Note:* Only affects the naming of the new repository_ |
