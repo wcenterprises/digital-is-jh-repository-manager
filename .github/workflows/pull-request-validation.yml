@@ -11,6 +11,6 @@ jobs:
       # Cart before the horse.
       # @tag-name is always the prefered way to use these actions. 
       # in this case, we want to use main (latest)
-    - uses: wcenterprises/digital-is-build-actions/jira/validate@v3.1
+    - uses: wcenterprises/digital-is-build-actions/jira/validate@v6
       with:
         jira-token: ${{ secrets.JIRA_ACCESS_TOKEN }}
