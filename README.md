@@ -13,6 +13,7 @@ In the future, Repository Manager will be expanded to provide initial code gener
 1. Commit the new file and push the branch.
 1. Create a pull request following reveiw and approval process as with any code change. 
 1. When the PR has the necessary approvals complete the merge. When the merge is completed and the CI script is run successfully your new repo will be created. 
+1. After your new repository is created you may then clone the repository and add your project code to source directory using established pull request process and procedures. 
 
 ## Problems
 If you have created the repository in error several things can be done to correct the error. Engage the build team to determine the best approach to correcting the proplem
