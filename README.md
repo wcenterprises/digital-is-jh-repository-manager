@@ -1,5 +1,9 @@
 # Repository Manager
 
+**Repository Manager** is a repository used to create repositories conforming to naming, configuration and operational standards of Digital IS. 
+
+In the future, Repository Manager will be expanded to provide initial code generation capabilities of new projects as well. 
+
 ## Quckstart
 1. Clone a local copy of this repository
 1. Create a new development branch
@@ -14,7 +18,6 @@
 If you have created the repository in error several things can be done to correct the error. Engage the build team to determine the best approach to correcting the proplem
 
 Repositories created in error can be deleted by requesting their deletion using [jhNow](https://jhnow.service-now.com/esc?id=sc_cat_item&sys_id=8b23353c470965d0365e3e48436d4386). 
-
 
 ### Json Schema
 
