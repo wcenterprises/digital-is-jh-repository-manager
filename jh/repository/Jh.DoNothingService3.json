@@ -1,0 +1,13 @@
+{
+  "name": "Jh.DoNothingService3",
+  "solution": "Jh.DoNothingService3.sln",
+  "jira_ticket": "CF-1054",
+  "teams": [
+    "banno/BSL"
+  ],
+  "codeowners": [    
+      "@banno/BSL",
+      "@wd0357097"
+  ],
+  "repo-modifier": "poc" 
+}

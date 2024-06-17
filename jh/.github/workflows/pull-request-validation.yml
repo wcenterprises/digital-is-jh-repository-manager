@@ -1,0 +1,13 @@
+name: Pull Request Validation
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  validate-jira-issues:
+    runs-on: ubuntu-latest
+
+    steps:      
+    - uses: banno/digital-is-build-actions/jira/validate@v6
+      with:
+        jira-token: ${{ secrets.JIRA_ACCESS_TOKEN }}

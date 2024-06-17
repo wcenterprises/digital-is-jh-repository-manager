@@ -1,0 +1,7 @@
+#
+# CODEOWNERS Generated 1/11/2023 - 3:39 PM
+#
+
+/repository/ @banno/digital-is-superuser
+
+* @banno/digital-is-build

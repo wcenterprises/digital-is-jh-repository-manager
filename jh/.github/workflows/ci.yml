@@ -1,0 +1,76 @@
+name: Package Manager
+on:
+  pull_request:    
+    types: [opened, edited, reopened]
+    branches:
+      - main
+    paths:
+      - repository/*
+
+  push:
+    branches:
+      - main
+    paths:
+      - repository/*
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env: 
+      GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
+
+    outputs: 
+      base-directory: ${{ steps.setup.outputs.base-directory }} 
+      changed-files: ${{ steps.validate.outputs.projects }} 
+
+    steps:
+      
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
+
+      - id: setup
+        name: setup environment
+        run: |
+          $baseDirectory = (get-item ".").parent.fullpath
+          write-output "base-directory=$baseDirectory" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      - id: validate
+        name: validate input
+        run: |
+          . ./scripts/pwsh/_validate-input.ps1 `
+              -sha '${{ github.sha }}' `
+              -eventname "${{ github.event_name }}" `
+              -eventbefore "${{ github.event.before }}" `
+              -eventafter "${{ github.event.after }}"
+        shell: pwsh
+        
+  create-repository:
+    needs: validate
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_REPO_MANAGER_TOKEN }}
+
+    if: |
+      always() && 
+      github.ref == 'refs/heads/main' && 
+      github.event_name == 'push' && 
+      needs.validate.result =='success' &&
+      needs.validate.outputs.changed-files != ''
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: generate repositories
+        run: |
+          $projects='${{ needs.validate.outputs.changed-files }}' | convertfrom-json
+          
+          $projects | foreach-object {
+            $project = $_
+            write-output "::notice::- creating $($project.repository)"
+            . ./scripts/pwsh/_clone-template.ps1 -project:$project  
+            write-output "::notice::Created https://github.com/${env:GITHUB_REPOSITORY_OWNER}/$($project.repository)"        
+          }
+        shell: pwsh
+        working-directory: ${{ needs.validate.outputs.base-directory }}
